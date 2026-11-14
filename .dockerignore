@@ -1,0 +1,13 @@
+# Send only the build files, Gradle wrapper and sources to Docker.
+**
+!Dockerfile
+!main/
+!main/gradlew
+!main/build.gradle
+!main/settings.gradle
+!main/gradle/
+!main/gradle/wrapper/
+!main/gradle/wrapper/gradle-wrapper.jar
+!main/gradle/wrapper/gradle-wrapper.properties
+!main/src/
+!main/src/**

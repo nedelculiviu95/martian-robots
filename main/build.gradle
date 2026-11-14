@@ -1,0 +1,80 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'jacoco'
+}
+
+group = 'com.robot'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = 'com.robot.Main'
+    applicationName = 'martian-robots'
+}
+
+run {
+    standardInput = System.in
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    outputs.dir(layout.buildDirectory.dir('jacoco/cli'))
+    doFirst {
+        delete layout.buildDirectory.dir('jacoco/cli')
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.11'
+}
+
+jacocoTestReport {
+    mustRunAfter test
+    executionData.setFrom(fileTree(layout.buildDirectory.dir('jacoco')) {
+        include '**/*.exec'
+    })
+    reports {
+        xml.required = true
+    }
+}
+
+jacocoTestCoverageVerification {
+    dependsOn test
+    executionData.setFrom(fileTree(layout.buildDirectory.dir('jacoco')) {
+        include '**/*.exec'
+    })
+    violationRules {
+        rule {
+            element = 'CLASS'
+            limit {
+                counter = 'INSTRUCTION'
+                minimum = 0.7
+            }
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.7
+            }
+        }
+    }
+}
+
+check {
+    dependsOn jacocoTestCoverageVerification
+}

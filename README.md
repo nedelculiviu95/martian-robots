@@ -72,7 +72,8 @@ The application checks the entire input before moving any robots. If the input i
 - An empty instruction line (lines with `L`, `R` and `F`) is allowed and makes the robot do nothing, but ending the file immediately after a position line is an error. Blank lines where coordinates are expected are rejected.
 - Input files support both Unix-style and Windows-style line breaks.
 - A file without any robots is valid and produces no output.
-- Save input files using UTF-8 encoding. Files must be no larger than 1MB, including spaces and line breaks. This application adds the size limit; the exercise does not require it.
+- Save input files using UTF-8 encoding. Files must be no larger than 1MB, including spaces and line breaks. This application adds the size limit; the exercise does not require it
+- There is no validation for file extension. I address this point in the "Choices I made and possible improvements" section
 
 The packaged application's exit codes are `0` for success, `2` for invalid input and `1` for I/O or unexpected execution failures.
 
@@ -109,13 +110,14 @@ I used `int` for coordinates even though the limit of 50 would fit in a `short`.
 
 I used Java's built-in `Objects.requireNonNull()` to check that required values passed to constructors , such as a robot's position, are not missing (they can't be null). If a value is missing, it stops that operation immediately and identifies the missing value, making the problem easier to find. It still throws an NullPointerException, which is Java's way of reporting an error. I preferred this built-in check over writing the same check and error-handling code myself each time because it keeps the code shorter and consistent.
 
-The application checks the whole input file before moving any robots and prepares all results before displaying them. This needs more computer memory than handling one robot at a time, but it means a mistake near the end of the file will not leave the user with an incomplete set of results. The file size limit helps keep memory use manageable. Robots move one after another because later robots need to react to the scents left by earlier ones. Moving them all at once would change the results.
+The application checks the whole input file before moving any robots and prepares all results before displaying them. This needs more computer memory than handling one robot at a time, but it means a mistake near the end of the file will not leave the user with an incomplete set of results. The file size limit (1MB) helps keep memory use manageable.
 
 With more time, I would consider:
 
+- **File validation.** There is currently no file-extension validation: the application accepts any existing, readable file, regardless of its extension. The application still validates the file's UTF-8 encoding, size and input format. With more time, I would have added file-extension validation, such as requiring only `.txt` files, alongside the existing content checks. This should be added as a future improvement
+- **Handling bigger files.** Measure how long larger simulations take and how much memory they use. I would then look at ways to handle more data while still checking the whole input before starting and moving the robots in the correct order
 - **Adding more robot commands.** At the moment the current implementation allows adding more instructions by implementing the Instruction interface and adding it to the instructions map in the Main class. If more instructions are needed I would move from having the map store the instructions and use a centralise class that holds all the instructions. The code is assuming that an instruction does not move the robot or it moves one grid only. If a new instruction would require the robot to move more grids then the current functionality could be used as the robot would move one grid at a time which checks if the robot get's lost, but to make things easier the class that holds the instruction, could also store a new variable that controls the number of grids the robot would move
 - **Improving the tests** Improving the main method (Main class) to have 100% coverage and adding comments to some of the unit tests which are not easy to understand and centralise some commomn functions that the tests are sharing
 - **Making the application easier to use.** Add built-in help and simpler ways to choose input and output files. I would also consider letting users change settings, such as the file size limit, without editing the code. Basically making the application configurable using environment variables or allowing the users to select the application constraints
-- **Handling bigger files.** Measure how long larger simulations take and how much memory they use. I would then look at ways to handle more data while still checking the whole input before starting and moving the robots in the correct order
 - **Showing each step.** Let users see every turn, move, ignored move, and lost robot. A visual version could show the robots moving across the grid, making the rules easier to follow
 

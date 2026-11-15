@@ -6,7 +6,7 @@ A Java 21 command-line simulation of robots on a bounded grid. Robots move one a
 
 Install and start Docker. Java and Gradle are provided inside the container; neither needs to be installed on your machine.
 
-Save your input as `input.txt` using the format shown below, then run this single command from the repository root:
+Save your input as `input.txt` using the format shown below, then run this single command from the repository root. Repository already contains an `input.txt` that can be used:
 
 ```sh
 ./run-app-in-docker.sh input.txt

@@ -88,7 +88,7 @@ From the repository root, run all tests and generate test and coverage reports w
 1. Open `docker-reports/tests/test/index.html` to view test test results
 2. Open `docker-reports/jacoco/test/html/index.html` to view coverage
 
-This needs only Docker on the host. The script builds the development image, which includes JDK 21, the Gradle wrapper and the source files, then runs `clean test jacocoTestReport` in a temporary container. This reruns the tests and generates reports, even when Docker reuses cached build layers. Coverage thresholds are not enforced. The script returns a nonzero exit code if the build, tests or report generation fail.
+The script returns a nonzero exit code if the build, tests or report generation fail.
 
 ## Run tests with Gradle
 

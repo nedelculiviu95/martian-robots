@@ -7,6 +7,7 @@ docker-reports/
 *.project
 *.classpath
 /.metadata/
+.gradle/
 
 **/.idea/
 *.iml
@@ -20,9 +21,5 @@ docker-reports/
 *.tgz
 
 TEST*.xml
-
-Java.code-workspace
-*.factorypath
-client-cfg/masif/.install_version
 
 *.DS_Store

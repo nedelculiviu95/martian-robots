@@ -76,12 +76,6 @@ The application checks the entire input before moving any robots. If the input i
 
 The packaged application's exit codes are `0` for success, `2` for invalid input and `1` for I/O or unexpected execution failures.
 
-## Design and extension
-
-The [design proposal](DESIGN.md) explains the class responsibilities and validation choices. Immutable records represent coordinates, positions, robot states and programs. `Position` contains a coordinate and direction; `RobotState` contains a position and lost status. A fresh `World` holds bounds and scents for each simulation, while `Simulation` controls robot ordering. A private method in `Main` formats the results.
-
-The built-in instruction classes declare their characters as `SYMBOL` constants, which `Main` uses when registering them. To add a command, implement the stateless `Instruction` interface and register its character in `Main`. Movement commands call `World.move` so they share boundary and scent behavior. For example, a backward command can move in `current.position().direction().opposite()` while preserving the robot's facing. `B` is not part of the default command alphabet.
-
 ## Run tests with Docker
 
 From the repository root, run all tests and generate test and coverage reports with one command:
